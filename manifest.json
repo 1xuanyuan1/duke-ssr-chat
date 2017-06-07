@@ -1,0 +1,13 @@
+{
+  "name": "Vue Server-Side Rendering",
+  "short_name": "Vue SSR",
+  "icons": [{
+      "src": "/public/logo-120.png",
+      "sizes": "120x120",
+      "type": "image/png"
+    }],
+  "start_url": "/",
+  "background_color": "#f2f3f5",
+  "display": "standalone",
+  "theme_color": "#f60"
+}
