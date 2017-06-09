@@ -110,7 +110,7 @@ function render (req, res) {
   }
 
   const context = {
-    title: 'Vue SSR', // default title
+    title: 'Duke 聊天室', // default title
     url: req.url
   }
   renderer.renderToString(context, (err, html) => {
@@ -135,9 +135,11 @@ app.get('*', isProd ? render : (req, res) => {
 var onlineUsers = {}
 // 当前在线人数
 var onlineCount = 0
+// 所有在线聊天记录
+var messages = []
 
 io.on('connection', function (socket) {
-  console.log('a user connected')
+  // console.log('a user connected')
   // 监听新用户加入
   socket.on('login', function (obj) {
     // 将新加入用户的唯一标识当作socket的名称，后面退出的时候会用到
@@ -171,6 +173,7 @@ io.on('connection', function (socket) {
   socket.on('message', function (obj) {
     // 向所有客户端广播发布的消息
     io.emit('message', obj)
+    messages.push(obj)
     console.log(obj.username + '说：' + obj.content)
   })
 })

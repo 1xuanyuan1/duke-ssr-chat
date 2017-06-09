@@ -23,7 +23,8 @@ module.exports = {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'public': resolve('public'),
-      '@': resolve('src')
+      '@': resolve('src'),
+      'scss': resolve('src/scss')
     }
   },
   module: {

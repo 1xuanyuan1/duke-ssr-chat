@@ -4,16 +4,26 @@ import Vue from 'vue'
 import 'es6-promise/auto'
 import App from './App.vue'
 import { createRouter } from './router'
-
-Vue.config.productionTip = false
+import { createStore } from './store'
+import { sync } from 'vuex-router-sync'
+import { showAlert } from './utils'
 
 export function createApp () {
-  // create router instance
+  // create router and store instances
   const router = createRouter()
+  const store = createStore()
+
+  // sync so that route state is available as part of the store
+  sync(store, router)
+
+  Vue.prototype.$showAlert = showAlert
+
   const app = new Vue({
     router,
-    render: h => h(App)
+    store,
+    ...App
+    // render: h => h(App)
   })
   // return both the app and the router
-  return { app, router }
+  return { app, router, store }
 }

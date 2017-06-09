@@ -1,0 +1,116 @@
+@import './base.scss';
+/* 修改总体的默认样式 */
+html, body, button, input, select, textarea{
+  font-family: Microsoft Yahei,Helvetica Neue,\\5B8B\4F53,Helvetica,Arial,sans-serif;
+  // font-family: "Myriad Set Pro","Helvetica Neue","Microsoft YaHei",Helvetica,Arial,sans-serif;
+}
+html,body {
+  padding: 0px;
+  margin: 0px;
+  overflow-y: hidden;
+  background: $bg-color;
+  // min-width: 1024px;
+}
+input,textarea,.input,.textarea{
+  &:focus,&.is-focused,&:active,&.is-active{
+    outline: none;
+    border-color: $active-color;
+  }
+  /* 将输入框的提示内容颜色改为白色 */
+  &.white:-moz-placeholder{
+    color: white;
+  }
+  &.white:-ms-input-placeholder{
+    color: white;
+  }
+  &.white::-webkit-input-placeholder{
+    color: white;
+  }
+}
+/*下拉框颜色选择*/
+.select:after{
+  border-color: $active-color;
+  &:hover{
+    border-color: $active-color-hover;
+  }
+}
+.button.is-info{
+  background-color: $btn-bg;
+  &:hover{
+    background-color: $btn-bg;
+    opacity: 0.85;
+  }
+}
+
+.tabs.is-toggle{
+  ul{
+    justify-content: center;
+    li.is-active a{
+      border-color: $active-color;
+      background-color: $active-color;
+    }
+  }
+}
+.toSearch{
+  cursor: pointer;
+}
+.card{
+  margin: $base-padding $base-padding / 2 0;
+  border-radius: $base-radius;
+  .card-header{
+    padding: $base-padding 0;
+    box-shadow: 0 1px 0px rgba(10, 10, 10, 0.1);
+    margin: 0 $base-padding;
+    align-items: center;
+    .card-header-icon{
+      min-width: 50px;
+      padding: 0;
+      color: $active-color-hover;
+      font-weight: bold;
+      &:hover{
+        color: $active-color;
+      }
+    }
+  }
+  .icon-title{
+    height: 15px;
+    width: 4px;
+    background: $active-color;
+    margin-right: 20px;
+  }
+}
+@media screen and (min-width: 1384px){
+  .container{
+    max-width: 1344px;
+  }
+}
+/* 手机端适配 */
+@media screen and (max-width: 768px){
+  .tooltip--medium{
+    &:before,&:after{
+      display: none;
+    }
+  }
+  html {
+    overflow-y: scroll;
+  }
+  .icon{
+    margin-top: $base-padding / 4;
+  }
+  .card-footer-item{
+    margin-left: 0 !important;
+  }
+  .keyword-card{
+    .asm-th.asm-grow-1{
+      flex-grow: 2 !important;
+    }
+    .left{
+      padding-left: $base-padding * 2 !important;
+    }
+  }
+  .all-app{
+    .left{
+      padding-left: 0 !important;
+    }
+  }
+}

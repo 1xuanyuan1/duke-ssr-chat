@@ -9,9 +9,21 @@ export function createRouter () {
     routes: [
       {
         path: '/',
-        name: 'Hello',
-        component: () => import('@/components/Hello')
-      }
+        name: 'Home',
+        meta: {
+          namePage: true
+        },
+        component: () => import('@/views/Home/index')
+      },
+      {
+        path: '/chat',
+        name: 'Chat',
+        meta: {
+          namePage: true
+        },
+        component: () => import('@/views/Chat/index')
+      },
+      { path: '*', redirect: '/' }
     ]
   })
 }
