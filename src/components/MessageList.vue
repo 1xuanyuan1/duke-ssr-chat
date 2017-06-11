@@ -11,9 +11,7 @@
           </figure>
           <div class="media-content box">
             <div class="content">
-              <p>
-                {{item.content}}
-              </p>
+              {{item.content}}
             </div>
           </div>
           <figure class="media-right" v-if="item.userid === userinfo.userid">
@@ -34,6 +32,22 @@ export default {
       'messages',
       'userinfo'
     ])
+  },
+  watch: {
+    messages () {
+      this.scrollBottom()
+    }
+  },
+  mounted () {
+    this.scrollBottom()
+  },
+  methods: {
+    scrollBottom () {
+      this.$nextTick(() => {
+        let list = document.querySelector('.message-list')
+        list.scrollTop = list.scrollHeight - list.offsetHeight
+      })
+    }
   }
 }
 </script>
@@ -51,10 +65,17 @@ export default {
     }
     &.right {
       justify-content: flex-end;
+      .box {
+        background-color: #3273dc;
+        .content {
+          color: #fff;
+        }
+      }
     }
     .media {
       max-width: 80%;
       .box {
+        padding: 10px;
         margin-bottom: 1rem;
       }
       .image{

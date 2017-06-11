@@ -28,6 +28,13 @@ const mutations = {
   [types.MESSAGE_UPDATE] (state, obj) {
     state.messages.push(obj)
     ls.set('message', state.messages)
+  },
+  [types.MESSAGE_OUTLINE] (state, list) {
+    state.messages = [
+      ...state.messages,
+      ...list
+    ]
+    ls.set('message', state.messages)
   }
 }
 
@@ -43,6 +50,9 @@ const actions = {
   },
   fnMessageUpdate ({ commit }, obj) {
     commit(types.MESSAGE_UPDATE, obj)
+  },
+  fnMessageOutline ({ commit }, list) {
+    commit(types.MESSAGE_OUTLINE, list)
   }
 }
 
@@ -50,7 +60,11 @@ const getters = {
   userinfo: state => state.user,
   onlineCount: state => state.onlineCount,
   onlineUsers: state => state.onlineUsers,
-  messages: state => state.messages
+  messages: state => state.messages,
+  lastMessageId: state => {
+    if (state.messages.length < 1) return ''
+    return state.messages[state.messages.length - 1].id
+  }
 }
 
 export function createStore () {

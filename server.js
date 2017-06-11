@@ -131,6 +131,8 @@ app.get('*', isProd ? render : (req, res) => {
   readyPromise.then(() => render(req, res))
 })
 
+const md5 = require('md5')
+
 // 在线用户
 var onlineUsers = {}
 // 当前在线人数
@@ -140,6 +142,7 @@ var messages = []
 
 io.on('connection', function (socket) {
   // console.log('a user connected')
+  // console.log(io.sockets.sockets)
   // 监听新用户加入
   socket.on('login', function (obj) {
     // 将新加入用户的唯一标识当作socket的名称，后面退出的时候会用到
@@ -159,7 +162,7 @@ io.on('connection', function (socket) {
     // 将退出的用户从在线列表中删除
     if (onlineUsers.hasOwnProperty(socket.name)) {
       // 退出用户的信息
-      var obj = {userid: socket.name, username: onlineUsers[socket.name]}
+      let obj = {userid: socket.name, username: onlineUsers[socket.name]}
       // 删除
       delete onlineUsers[socket.name]
       // 在线人数-1
@@ -171,10 +174,22 @@ io.on('connection', function (socket) {
   })
   // 监听用户发布聊天内容
   socket.on('message', function (obj) {
+    // 给每条消息加一个ID为了识别离线消息
+    obj.id = md5(obj.userid + obj.content + new Date())
     // 向所有客户端广播发布的消息
     io.emit('message', obj)
     messages.push(obj)
     console.log(obj.username + '说：' + obj.content)
+  })
+
+  // 监听用户离线的聊天内容
+  socket.on('outlineMessage', function (obj) {
+    let index = messages.findIndex(item => item.id === obj.id)
+    if (index < messages.length - 1) {
+      let list = messages.slice(index + 1, messages.length)
+      // 向所有客户端广播发布的消息
+      io.sockets.sockets[obj.socketId].emit('outlineMessage', list)
+    }
   })
 })
 

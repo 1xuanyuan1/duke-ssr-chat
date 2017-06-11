@@ -23,7 +23,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'userinfo'
+      'userinfo',
+      'lastMessageId'
     ]),
     connected () {
       if (!this.socket) return false
@@ -43,7 +44,9 @@ export default {
         this.socket.emit('login', user)
         this.fnLogin(user)
       }
+      this.socket.emit('outlineMessage', {id: this.lastMessageId, socketId: this.socket.id})
     })
+    // 监听所有用户登录
     this.socket.on('login', (data) => {
       if (data.user.socketId === this.socket.id) { // 若是自己登录成功则直接跳转聊天室
         this.$router.push('/chat')
@@ -52,14 +55,20 @@ export default {
       }
       this.fnGlobalUpdate(data)
     })
+    // 监听所有用户离开
     this.socket.on('logout', (data) => {
       if (data.user.socketId !== this.socket.id) { // 若是自己登录成功则直接跳转聊天室
         this.$showAlert({title: `${data.user.username}离开Duke聊天室`, type: 'danger'})
       }
       this.fnGlobalUpdate(data)
     })
+    // 监听所有消息
     this.socket.on('message', (data) => {
       this.fnMessageUpdate(data)
+    })
+    this.socket.on('outlineMessage', (list) => {
+      this.$showAlert({title: `您有${list.length}条离线消息`, duration: 3000, type: 'info'})
+      this.fnMessageOutline(list)
     })
   },
   methods: {
@@ -67,7 +76,8 @@ export default {
       'fnLogin',
       'fnGlobalInit',
       'fnGlobalUpdate',
-      'fnMessageUpdate'
+      'fnMessageUpdate',
+      'fnMessageOutline'
     ]),
     fnShowAlert (config) {
       let title, type
