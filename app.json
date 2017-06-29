@@ -1,0 +1,9 @@
+{
+  "apps": [{
+    "name": "chat",
+    "script": "server.js",
+    "env": {
+      "NODE_ENV": "production"
+    }
+  }]
+}
