@@ -1,9 +1,10 @@
 {
   "apps": [{
-    "name": "chat",
+    "name": "topasm",
     "script": "server.js",
     "env": {
-      "NODE_ENV": "production"
+      "NODE_ENV": "production",
+      "PORT": 8081
     }
   }]
 }
