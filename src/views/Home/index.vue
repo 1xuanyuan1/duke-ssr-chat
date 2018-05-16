@@ -1,7 +1,7 @@
 <template>
   <div class="name-box">
     <div class="box">
-      <h2>Duke 聊天室</h2>
+      <h2>星云聊天室</h2>
       <input class="input" placeholder="请输入您的昵称" v-model="username" @keyup.enter="fnUserCreate"/>
       <a class="button is-info" @click="fnUserCreate">进入聊天室</a>
     </div>
@@ -16,19 +16,34 @@ export default {
       'userinfo'
     ])
   },
-  created () {
+  mounted () {
     if (this.userinfo.username) {
       this.$router.push('/chat')
+    } else {
+      setTimeout(() => { // 跟socket有冲突 延时下能解决
+        this.$api.login().then(res => {
+          console.log('res', res)
+          // 若 username 存在则已经注册了
+          if (res.username) {
+            this.$root.fnUserCreate(res.username, res.userid)
+          } else {
+            this.userid = res.userid
+          }
+        })
+      }, 300)
     }
   },
   data () {
     return {
-      username: ''
+      username: '',
+      userid: ''
     }
   },
   methods: {
     fnUserCreate () {
-      this.$root.fnUserCreate(this.username)
+      this.$api.register(this.username).then(res => {
+        this.$root.fnUserCreate(this.username, this.userid)
+      })
     }
   }
 }

@@ -17,6 +17,7 @@
     "es6-promise": "^4.1.0",
     "lru-cache": "^4.0.2",
     "md5": "^2.2.1",
+    "nebpay": "^0.0.6",
     "serve-favicon": "^2.4.3",
     "socket.io": "^2.0.2",
     "store2": "^2.5.1",

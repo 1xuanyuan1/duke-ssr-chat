@@ -110,7 +110,7 @@ function render (req, res) {
   }
 
   const context = {
-    title: 'Duke 聊天室', // default title
+    title: '星云聊天室', // default title
     url: req.url
   }
   renderer.renderToString(context, (err, html) => {

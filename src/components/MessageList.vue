@@ -2,7 +2,7 @@
   <div class="message-list box">
     <h1 class="subtitle">消息列表</h1>
     <div class="messages">
-      <div class="message-box" v-for="(item, i) in messages" :class="{left: item.userid !== userinfo.userid, right: item.userid === userinfo.userid}">
+      <div class="message-box" v-for="(item, i) in messages" :key="i" :class="{left: item.userid !== userinfo.userid, right: item.userid === userinfo.userid}">
         <article class="media">
           <figure class="media-left" v-if="item.userid !== userinfo.userid">
             <p class="image">

@@ -9,7 +9,6 @@
 <script>
 import io from 'socket.io-client'
 import { mapActions, mapGetters } from 'vuex'
-import md5 from 'md5'
 import Alert from '@/components/Alert'
 export default {
   name: 'app',
@@ -44,21 +43,22 @@ export default {
         this.socket.emit('login', user)
         this.fnLogin(user)
       }
-      this.socket.emit('outlineMessage', {id: this.lastMessageId, socketId: this.socket.id})
+      this.fnGetMessage()
+      // this.socket.emit('outlineMessage', {id: this.lastMessageId, socketId: this.socket.id})
     })
     // 监听所有用户登录
     this.socket.on('login', (data) => {
       if (data.user.socketId === this.socket.id) { // 若是自己登录成功则直接跳转聊天室
         this.$router.push('/chat')
       } else {
-        this.$showAlert({title: `欢迎${data.user.username}来到Duke聊天室`, type: 'info'})
+        this.$showAlert({title: `欢迎${data.user.username}来到星云聊天室`, type: 'info'})
       }
       this.fnGlobalUpdate(data)
     })
     // 监听所有用户离开
     this.socket.on('logout', (data) => {
       if (data.user.socketId !== this.socket.id) { // 若是自己登录成功则直接跳转聊天室
-        this.$showAlert({title: `${data.user.username}离开Duke聊天室`, type: 'danger'})
+        this.$showAlert({title: `${data.user.username}离开星云聊天室`, type: 'danger'})
       }
       this.fnGlobalUpdate(data)
     })
@@ -77,7 +77,8 @@ export default {
       'fnGlobalInit',
       'fnGlobalUpdate',
       'fnMessageUpdate',
-      'fnMessageOutline'
+      'fnMessageOutline',
+      'fnMessageSet'
     ]),
     fnShowAlert (config) {
       let title, type
@@ -98,10 +99,10 @@ export default {
       }
       this.socket.emit('message', obj)
     },
-    fnUserCreate (username = '') {
+    fnUserCreate (username = '', userid = '') {
       if (this.connected) {
         let user = {
-          userid: md5(this.socket.id + username),
+          userid,
           username,
           socketId: this.socket.id
         }
@@ -110,6 +111,14 @@ export default {
       } else {
         console.log('socket未连通')
       }
+    },
+    // 获取消息
+    fnGetMessage () {
+      setTimeout(() => {
+        this.$api.getPublic().then(res => {
+          this.fnMessageSet(res)
+        })
+      }, 300)
     }
   }
 }
@@ -120,7 +129,7 @@ export default {
 @import '~scss/style.scss';
 
 /* 可以设置不同的进入和离开动画 */
-/* 设置持续时间和动画函数 */  
+/* 设置持续时间和动画函数 */
 [class*='-enter-active'] {
   transition: all .8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 }

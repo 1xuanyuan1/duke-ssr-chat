@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import { createApp } from './app'
+import api from './service'
 
 // a global mixin that calls `asyncData` when a route component's params change
 Vue.mixin({
@@ -15,6 +16,7 @@ Vue.mixin({
     }
   }
 })
+Vue.prototype.$api = api
 // client-specific bootstrapping logic...
 
 const { app, router, store } = createApp()

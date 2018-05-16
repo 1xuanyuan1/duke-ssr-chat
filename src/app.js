@@ -17,7 +17,6 @@ export function createApp () {
   sync(store, router)
 
   Vue.prototype.$showAlert = showAlert
-
   const app = new Vue({
     router,
     store,

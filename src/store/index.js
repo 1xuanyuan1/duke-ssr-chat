@@ -19,7 +19,7 @@ const mutations = {
   },
   [types.GLOBAL_INIT] (state) {
     state.user = ls.get('userinfo') || {}
-    state.messages = ls.get('message') || []
+    // state.messages = ls.get('message') || []
   },
   [types.GLOBAL_UPDATE] (state, data) {
     state.onlineCount = data.onlineCount
@@ -34,6 +34,10 @@ const mutations = {
       ...state.messages,
       ...list
     ]
+    ls.set('message', state.messages)
+  },
+  [types.MESSAGE_SET] (state, messages) {
+    state.messages = messages
     ls.set('message', state.messages)
   }
 }
@@ -53,6 +57,9 @@ const actions = {
   },
   fnMessageOutline ({ commit }, list) {
     commit(types.MESSAGE_OUTLINE, list)
+  },
+  fnMessageSet ({ commit }, messages) {
+    commit(types.MESSAGE_SET, messages)
   }
 }
 

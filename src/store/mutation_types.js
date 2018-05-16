@@ -9,3 +9,5 @@ export const GLOBAL_UPDATE = 'GLOBAL_UPDATE' // 信息更新
 
 export const MESSAGE_UPDATE = 'MESSAGE_UPDATE' // 消息更新
 export const MESSAGE_OUTLINE = 'MESSAGE_OUTLINE' // 离线消息获取
+
+export const MESSAGE_SET = 'MESSAGE_SET' // 直接设置消息列表

@@ -30,8 +30,10 @@ export default {
   },
   methods: {
     fnSendMessage () {
-      this.$root.fnSendMessage(this.message)
-      this.message = ''
+      this.$api.publicSay(this.message).then(res => {
+        this.$root.fnSendMessage(this.message)
+        this.message = ''
+      })
     }
   }
 }
